@@ -23,22 +23,27 @@ jobs:
         run: |
           npm install
           echo "Getting short commit..."
+          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
           echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       - name: Generate SBOM file
         uses: CycloneDX/gh-node-module-generatebom@master
       
-      - name: Get repository name
-        id: repo-name
-        uses: MariachiBear/get-repo-name-action@v1.1.0
-        with:
-          with-owner: 'true'
-          string-case: 'lowercase'
       - name: Get secrets
         run: |
           echo "Getting short commit..."
-          echo ${SHORT_SHA}
+          echo ${REPO_NAME}
           echo "Repo name: ...."
-          echo ${{ steps.repo-name.outputs.repository-name }}
+          echo ${REPO_NAME}
+      # - name: Run dependency tracker
+
+      #   uses: attempto-Lab/dependencytrackupload-github-action@v1
+      #   with:
+      #     serverUrl: 'https://pretty-clam-romantic.ngrok-free.app/api/v1/bom'
+      #     apiKey: "odt_yPbW456wU3sDsAXRkzi1b07avSYAE2Es"
+      #     bomFile: 'bom.xml'
+      #     projectName: ${{ steps.repo-name.outputs.repository-name }}
+      #     projectVersion: ${SHORT_SHA}
+      #     autoCreate: true
       - name: Run dependency tracker
 
         uses: attempto-Lab/dependencytrackupload-github-action@v1
@@ -46,6 +51,6 @@ jobs:
           serverUrl: 'https://pretty-clam-romantic.ngrok-free.app/api/v1/bom'
           apiKey: "odt_yPbW456wU3sDsAXRkzi1b07avSYAE2Es"
           bomFile: 'bom.xml'
-          projectName: ${{ steps.repo-name.outputs.repository-name }}
-          projectVersion: ${SHORT_SHA}
+          projectName: ${{ github.repository }}
+          projectVersion: ${{ github.ref_name }}
           autoCreate: true
