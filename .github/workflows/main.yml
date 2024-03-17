@@ -51,6 +51,6 @@ jobs:
           serverUrl: 'https://pretty-clam-romantic.ngrok-free.app/api/v1/bom'
           apiKey: "odt_yPbW456wU3sDsAXRkzi1b07avSYAE2Es"
           bomFile: 'bom.xml'
-          projectName: ${{ steps.repo-name.outputs.repository-name }}
-          projectVersion: ${{ github.sha }}
+          projectName: ${REPO_NAME}
+          projectVersion: ${SHORT_SHA}
           autoCreate: true
