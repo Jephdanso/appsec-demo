@@ -34,5 +34,5 @@ jobs:
           apiKey: "odt_yPbW456wU3sDsAXRkzi1b07avSYAE2Es"
           bomFile: 'bom.xml'
           projectName: ${{ github.repository }}
-          projectVersion: ${{ github.ref_name }}
+          projectVersion: ${{ github.sha }}
           autoCreate: true
