@@ -22,9 +22,17 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          echo "Installing dependencies"
+          echo "Getting short commit..."
+          echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       - name: Generate SBOM file
         uses: CycloneDX/gh-node-module-generatebom@master
+
+      - name: Get repository name
+        id: repo-name
+        uses: MariachiBear/get-repo-name-action@v1.1.0
+        with:
+          with-owner: 'true'
+          string-case: 'lowercase'
 
       - name: Run dependency tracker
 
@@ -33,6 +41,6 @@ jobs:
           serverUrl: 'https://pretty-clam-romantic.ngrok-free.app/api/v1/bom'
           apiKey: "odt_yPbW456wU3sDsAXRkzi1b07avSYAE2Es"
           bomFile: 'bom.xml'
-          projectName: ${{ github.repository }}
-          projectVersion: ${{ github.ref_name }}
+          projectName: ${{ steps.repo-name.outputs.repository-name }}
+          projectVersion: ${SHORT_SHA}
           autoCreate: true
