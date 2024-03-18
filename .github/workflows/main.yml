@@ -34,11 +34,12 @@ jobs:
     
   generate-upload-sbom:
     runs-on: ubuntu-latest
+    needs: build-scan
     steps:  
 
       - name: Generate SBOM file
         uses: CycloneDX/gh-node-module-generatebom@master
-        
+
       - name: Get secrets
         run: |
           echo "Getting short commit..."
