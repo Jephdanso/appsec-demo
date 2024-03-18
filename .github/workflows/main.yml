@@ -28,6 +28,9 @@ jobs:
           scan-type: 'fs'
           scan-ref: '.'
           trivy-config: trivy.yaml
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
       
       - name: Generate SBOM file
         uses: CycloneDX/gh-node-module-generatebom@master
