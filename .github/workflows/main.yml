@@ -21,10 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          echo "Getting short commit..."
-          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
-          echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-    
+          
       - name: Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -42,7 +39,9 @@ jobs:
 
       - name: Get secrets
         run: |
-          echo "Getting short commit..."
+          echo "Getting short commit and repo name..."
+          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
+          echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
           echo ${REPO_NAME}
           echo "Repo name: ...."
           echo ${REPO_NAME}
